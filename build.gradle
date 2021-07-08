@@ -9,10 +9,30 @@ def map = [description: "Hello task", group: "dmdev"]
 //    println "configuration phase. Task hello"
 //    println "task: $description, group: $group, actions: ${actions.size()}"
 //}
+//Project -> [Task1, Task2]
+//Task -> [Action1, Action2] -> action.execution (execution phase)
+
 task hello(description: "Hello task", group: "dmdev", type: DefaultTask) {
     println "configuration phase. Task hello"
+
+    doLast {
+        println "execution phase, Action 1"
+    }
+    doFirst {
+        println "execution phase, Action 2"
+    }
+    doLast {
+        println "execution phase, Action 3"
+    }
     println "task: $description, group: $group, actions: ${actions.size()}"
+    println "path task: $path"
 }
+
+//gradle.taskGraph.allTasks
+
+//hello.doFirst {
+//
+//}
 
 //tasks.findByName("hello").
 //1
