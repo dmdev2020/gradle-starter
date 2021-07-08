@@ -4,3 +4,7 @@
  * This is a general purpose Gradle build.
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.1.1/samples
  */
+
+println "configuration phase"
+println "gradle id: ${gradle.hashCode()}"
+println "root: ${rootProject.hashCode()}, ${project.hashCode()}, ${gradle.rootProject.hashCode()}"
