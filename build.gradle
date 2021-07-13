@@ -1,17 +1,3 @@
-println "configuration phase"
-println "gradle id: ${gradle.hashCode()}"
-println "root: ${rootProject.hashCode()}, ${project.hashCode()}, ${gradle.rootProject.hashCode()}"
-
-// task = new DefaultTask
-//3
-def map = [description: "Hello task", group: "dmdev"]
-//task(map, "hello") {
-//    println "configuration phase. Task hello"
-//    println "task: $description, group: $group, actions: ${actions.size()}"
-//}
-//Project -> [Task1, Task2]
-//Task -> [Action1, Action2] -> action.execution (execution phase)
-
 task hello(description: "Hello task", group: "dmdev", type: DefaultTask) {
     println "configuration phase. Task hello"
 
@@ -30,19 +16,49 @@ task hello(description: "Hello task", group: "dmdev", type: DefaultTask) {
 
 //gradle.taskGraph.allTasks
 
-//hello.doFirst {
-//
-//}
+task first {
+    doLast {
+        println "Task 1"
+    }
+}
 
-//tasks.findByName("hello").
-//1
-//hello.description = "Hello task"
-//hello.group = "dmdev"
+task second {
+    doLast {
+        println "Task 2"
+    }
+}
 
-//2
-//hello.configure Closure
-//hello {
-//    println "configuration phase. Task hello"
-//    description = "Hello task"
-//    group = "dmdev"
-//}
+task third {
+    doLast {
+        println "Task 3"
+    }
+}
+
+task fourth {
+    doLast {
+        println "Task 4"
+    }
+}
+
+// 2 <--- 4
+
+//fourth.dependsOn second
+//second.dependsOn first
+//second.finalizedBy third
+fourth.dependsOn first
+fourth.dependsOn second
+fourth.dependsOn third
+
+first.mustRunAfter second
+//second.shouldRunAfter first
+
+gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+    println "---- Graph:"
+    graph.allTasks.each {
+        println "${it.name}"
+    }
+}
+
+// 2
+// 1    4
+// 3
