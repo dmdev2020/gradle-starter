@@ -34,7 +34,7 @@ task third {
     }
 }
 
-task fourth {
+task fourth(group: "dmdev") {
     doLast {
         println "Task 4"
     }
@@ -58,6 +58,20 @@ gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
         println "${it.name}"
     }
 }
+
+gradle.taskGraph.beforeTask { Task task ->
+    if (task.group == 'dmdev') {
+        println "beforeTask callBack $task"
+    }
+}
+
+gradle.taskGraph.afterTask { Task task ->
+    if (task.name == 'first') {
+        println "afterTask callBack $task"
+    }
+}
+
+defaultTasks "fourth"
 
 // 2
 // 1    4
