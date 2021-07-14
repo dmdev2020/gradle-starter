@@ -9,7 +9,7 @@ println ext.javaVersion
 println project.ext.javaVersion
 println javaVersion
 println project.javaVersion
-println project."projectParam1"
+//println project."projectParam1"
 println "---- All properties:"
 println project.properties
 println "---- System: "
