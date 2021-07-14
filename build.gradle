@@ -1,95 +1,31 @@
-import java.time.LocalDate
+apply from: 'script.gradle'
+//apply plugin: CustomPlugin
+//apply plugin: 'custom'
 
-ext {
-    javaVersion = 16
-    currentDate = LocalDate.now()
-}
+// buildSrc --- id 'custom'
+class CustomPlugin implements Plugin<Project> {
 
-println ext.javaVersion
-println project.ext.javaVersion
-println javaVersion
-println project.javaVersion
-println project."projectParam1"
-println "---- All properties:"
-println project.properties
-println "---- System: "
-println System.getProperty("sys.example")
-
-task hello(description: "Hello task", group: "dmdev", type: DefaultTask) {
-    println "configuration phase. Task hello"
-
-    doLast {
-        println "execution phase, Action 1"
+    @Override
+    void apply(Project project) {
+        addHelloTask(project)
     }
-    doFirst {
-        println "execution phase, Action 2"
-    }
-    doLast {
-        println "execution phase, Action 3"
-    }
-    println "task: $description, group: $group, actions: ${actions.size()}"
-    println "path task: $path"
-}
 
-//gradle.taskGraph.allTasks
+    void addHelloTask(Project project) {
+        def map = [description: "Hello task", group: "dmdev", type: DefaultTask]
+        project.task(map, "hello") {
+            println "configuration phase. Task hello"
 
-task first {
-    doLast {
-        println "Task 1"
+            doLast {
+                println "execution phase, Action 1"
+            }
+            doFirst {
+                println "execution phase, Action 2"
+            }
+            doLast {
+                println "execution phase, Action 3"
+            }
+            println "task: $description, group: $group, actions: ${actions.size()}"
+            println "path task: $path"
+        }
     }
 }
-
-task second {
-    doLast {
-        println "Task 2"
-    }
-}
-
-task third {
-    doLast {
-        println "Task 3"
-    }
-}
-
-task fourth(group: "dmdev") {
-    doLast {
-        println "Task 4"
-    }
-}
-
-// 2 <--- 4
-
-//fourth.dependsOn second
-//second.dependsOn first
-//second.finalizedBy third
-fourth.dependsOn first
-fourth.dependsOn second
-fourth.dependsOn third
-
-first.mustRunAfter second
-//second.shouldRunAfter first
-
-gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-    println "---- Graph:"
-    graph.allTasks.each {
-        println "${it.name}"
-    }
-}
-
-gradle.taskGraph.beforeTask { Task task ->
-    if (task.group == 'dmdev') {
-        println "beforeTask callBack $task"
-    }
-}
-
-gradle.taskGraph.afterTask { Task task ->
-    if (task.name == 'first') {
-        println "afterTask callBack $task"
-    }
-}
-
-defaultTasks "fourth"
-
-// 2
-// 1    4
-// 3

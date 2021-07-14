@@ -1,0 +1,79 @@
+import java.time.LocalDate
+
+ext {
+    javaVersion = 16
+    currentDate = LocalDate.now()
+}
+
+println ext.javaVersion
+println project.ext.javaVersion
+println javaVersion
+println project.javaVersion
+//println project."projectParam1"
+println "---- All properties:"
+println project.properties
+println "---- System: "
+println System.getProperty("sys.example")
+
+//gradle.taskGraph.allTasks
+
+task first {
+    doLast {
+        println "Task 1"
+    }
+}
+
+task second {
+    doLast {
+        println "Task 2"
+    }
+}
+
+task third {
+    doLast {
+        println "Task 3"
+    }
+}
+
+task fourth(group: "dmdev") {
+    doLast {
+        println "Task 4"
+    }
+}
+
+// 2 <--- 4
+
+//fourth.dependsOn second
+//second.dependsOn first
+//second.finalizedBy third
+fourth.dependsOn first
+fourth.dependsOn second
+fourth.dependsOn third
+
+first.mustRunAfter second
+//second.shouldRunAfter first
+
+gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+    println "---- Graph:"
+    graph.allTasks.each {
+        println "${it.name}"
+    }
+}
+
+gradle.taskGraph.beforeTask { Task task ->
+    if (task.group == 'dmdev') {
+        println "beforeTask callBack $task"
+    }
+}
+
+gradle.taskGraph.afterTask { Task task ->
+    if (task.name == 'first') {
+        println "afterTask callBack $task"
+    }
+}
+
+defaultTasks "fourth"
+
+// 2
+// 1    4
+// 3
