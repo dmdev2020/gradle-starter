@@ -5,7 +5,15 @@ plugins {
 apply from: 'script.gradle'
 
 repositories {
+//    ~/.gradle/caches --offline
+//    ~/.m2/repository
+//    mavenLocal()
+    maven {
+        name "nexus dmdev"
+        uri "https://nexus.dmdev/repository"
+    }
     mavenCentral()
+//    flatDir {}
 }
 
 sourceSets {
@@ -13,6 +21,9 @@ sourceSets {
         java {
             srcDir "$buildDir/generated-sources/querydsl"
         }
+    }
+    test {
+
     }
 }
 
