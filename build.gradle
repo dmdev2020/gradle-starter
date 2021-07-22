@@ -5,26 +5,13 @@ plugins {
 apply from: 'script.gradle'
 
 repositories {
-//    ~/.gradle/caches --offline
-//    ~/.m2/repository
-//    mavenLocal()
-    maven {
-        name "nexus dmdev"
-        uri "https://nexus.dmdev/repository"
-    }
     mavenCentral()
-//    flatDir {}
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir "$buildDir/generated-sources/querydsl"
-        }
-    }
-    test {
-
-    }
+dependencies {
+//    add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
+//    add('implementation', "org.springframework:spring-webmvc:5.3.9")
+    implementation "org.springframework:spring-webmvc:5.3.9"
 }
 
 // buildSrc --- id 'custom'
