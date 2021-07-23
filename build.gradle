@@ -8,10 +8,18 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    Configuration configurationImpl = getByName("implementation")
+    dmdev {
+        description = "dmdev configuration"
+    }
+    configurationImpl.extendsFrom(dmdev)
+}
+
 dependencies {
 //    add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
 //    add('implementation', "org.springframework:spring-webmvc:5.3.9")
-    implementation "org.springframework:spring-webmvc:5.3.9"
+    dmdev "org.springframework:spring-webmvc:5.3.9"
 }
 
 // buildSrc --- id 'custom'
