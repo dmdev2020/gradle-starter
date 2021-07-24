@@ -34,6 +34,17 @@ dependencies {
     }
 }
 
+configurations.runtimeClasspath.files.each { println it }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.dmdev.HelloWorld'
+    }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+
+    from (configurations.runtimeClasspath.files.collect {zipTree(it)} )
+}
+
 // buildSrc --- id 'custom'
 class CustomPlugin implements Plugin<Project> {
 
