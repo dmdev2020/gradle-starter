@@ -14,12 +14,24 @@ configurations {
         description = "dmdev configuration"
     }
     configurationImpl.extendsFrom(dmdev)
+
+    all {
+        resolutionStrategy {
+            force('org.springframework:spring-aop:5.3.8')
+        }
+    }
 }
 
 dependencies {
 //    add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
 //    add('implementation', "org.springframework:spring-webmvc:5.3.9")
-    dmdev "org.springframework:spring-webmvc:5.3.9"
+    implementation("org.springframework:spring-webmvc:5.3.9") {
+//        transitive(false)
+//        exclude(group: 'org.springframework', module: 'spring-aop')
+    }
+    implementation('org.springframework:spring-aop:5.3.8') {
+//        force(true)
+    }
 }
 
 // buildSrc --- id 'custom'
