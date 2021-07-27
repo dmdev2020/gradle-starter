@@ -1,11 +1,17 @@
 plugins {
     id 'java'
+    id 'war'
 }
 
 apply from: 'script.gradle'
 
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 configurations {
@@ -23,6 +29,7 @@ configurations {
 }
 
 dependencies {
+    compileOnly "jakarta.servlet:jakarta.servlet-api:5.0.0"
 //    add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
 //    add('implementation', "org.springframework:spring-webmvc:5.3.9")
     implementation("org.springframework:spring-webmvc:5.3.9") {
@@ -52,6 +59,17 @@ task copyAllDependecies(type: Copy) {
     into("$buildDir/libs/lib")
 }
 jar.dependsOn copyAllDependecies
+
+war {
+    archiveName "dmdev.war"
+}
+
+task deployTomcat(type: Copy) {
+    from(war.archiveFile.get())
+    into("/Users/dmatveyenka/Downloads/apache-tomcat-10.0.8/webapps")
+}
+deployTomcat.dependsOn war
+assemble.dependsOn deployTomcat
 
 // buildSrc --- id 'custom'
 class CustomPlugin implements Plugin<Project> {
