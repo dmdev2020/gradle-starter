@@ -1,5 +1,9 @@
 rootProject.name = 'gradle-starter'
 
-println "init phase, settings file: ${toString()}"
-println "gradle id: ${gradle.hashCode()}"
-println "dir: ${settings.settingsDir}"
+include 'database'
+include 'service'
+include 'web'
+include 'common'
+include 'common:core'
+include 'common:util'
+
