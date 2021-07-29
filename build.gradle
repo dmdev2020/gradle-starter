@@ -64,13 +64,6 @@ war {
     archiveName "dmdev.war"
 }
 
-task deployTomcat(type: Copy) {
-    from(war.archiveFile.get())
-    into("/Users/dmatveyenka/Downloads/apache-tomcat-10.0.8/webapps")
-}
-deployTomcat.dependsOn war
-assemble.dependsOn deployTomcat
-
 // buildSrc --- id 'custom'
 class CustomPlugin implements Plugin<Project> {
 

@@ -10,7 +10,10 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.11'
+    implementation project(":service")
+    implementation project(":common:util")
+    compileOnly "jakarta.servlet:jakarta.servlet-api:5.0.0"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
@@ -18,3 +21,14 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+war {
+    archiveName "dmdev.war"
+}
+
+task deployTomcat(type: Copy) {
+    from(war.archiveFile.get())
+    into("/Users/dmatveyenka/Downloads/apache-tomcat-10.0.8/webapps")
+}
+deployTomcat.dependsOn war
+assemble.dependsOn deployTomcat

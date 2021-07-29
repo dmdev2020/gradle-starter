@@ -1,6 +1,7 @@
 package com.dmdev.servlet;
 
 import com.dmdev.service.UserService;
+import com.dmdev.util.StringUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,6 +23,6 @@ public class UserServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         userService.getAll().forEach(user -> writer.write("""
                 <h1>%d: %s</h1>
-                """.formatted(user.id(), user.name())));
+                """.formatted(user.id(), StringUtils.trim(user.name()))));
     }
 }
