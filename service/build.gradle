@@ -1,7 +1,10 @@
 plugins {
     id 'java-library'
     id 'jacoco'
+    id 'custom-dmdev'
 }
+
+//apply plugin: com.dmdev.plugin.CustomPlugin
 
 repositories {
     mavenCentral()
