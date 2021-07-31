@@ -1,3 +1,16 @@
+import org.apache.commons.lang3.StringUtils
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+        classpath 'org.apache.commons:commons-lang3:3.12.0'
+    }
+}
+
 plugins {
     id 'java'
     id 'war'
@@ -5,8 +18,29 @@ plugins {
 
 apply from: 'script.gradle'
 
+allprojects {
+    group StringUtils.capitalize("dmdev")
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+}
+
 repositories {
     mavenCentral()
+}
+
+project(":database") {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+
+    }
 }
 
 java {
