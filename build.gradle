@@ -17,19 +17,22 @@ configurations {
 
     all {
         resolutionStrategy {
-            force('org.springframework:spring-aop:5.3.8')
+//            force('org.springframework:spring-aop:5.3.8')
         }
     }
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies
+    compileOnly platform('org.springframework.boot:spring-boot-dependencies:2.5.3')
+
 //    add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
 //    add('implementation', "org.springframework:spring-webmvc:5.3.9")
-    implementation("org.springframework:spring-webmvc:5.3.9") {
+    implementation("org.springframework:spring-webmvc") {
 //        transitive(false)
 //        exclude(group: 'org.springframework', module: 'spring-aop')
     }
-    implementation('org.springframework:spring-aop:5.3.8') {
+    implementation('org.springframework:spring-aop') {
 //        force(true)
     }
 }
